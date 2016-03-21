@@ -1,0 +1,28 @@
+{
+  "name": "ua-web-challenge-ix-qr",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {
+    "angular2": "2.0.0-beta.7",
+    "lodash": "^4.5.0",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "systemjs": "0.19.9",
+    "zone.js": "0.5.14"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "gulp": "^3.9.1",
+    "gulp-connect": "^3.1.1",
+    "gulp-inline-ng2-template": "0.0.11",
+    "gulp-jade": "^1.1.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-stylus": "^2.3.0",
+    "gulp-typescript": "^2.12.1",
+    "requiredir": "^1.0.7",
+    "typescript": "^1.8.9",
+    "watchify": "^3.7.0"
+  },
+  "license": "MIT"
+}

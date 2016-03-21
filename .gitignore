@@ -1,0 +1,12 @@
+/node_modules
+/bower_components
+/typings/*
+/build
+/public/*
+npm-debug.log
+
+*.ipr
+*.iws
+*.iml
+
+.idea

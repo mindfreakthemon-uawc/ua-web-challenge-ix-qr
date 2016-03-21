@@ -1,0 +1,10 @@
+.container
+	.row
+		.col-md-4
+			textarea('[(ngModel)]'='source').form-control
+
+			button.btn.btn-primary('(click)'='transform($event)') Execute
+		.col-md-4
+			textarea('[(ngModel)]'='stack').form-control
+		.col-md-4
+			textarea('[(ngModel)]'='result').form-control
