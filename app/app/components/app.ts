@@ -19,7 +19,6 @@ export class App {
     source: string;
 
     time: string;
-    stack: string;
     error: string;
     result: string;
     tokens: string[];
@@ -33,7 +32,6 @@ export class App {
     transform() {
         this.resultAvailable = false;
 
-        this.stack = null;
         this.result = null;
         this.error = null;
         this.tokens = null;

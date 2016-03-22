@@ -15,8 +15,6 @@ import { TokenKind } from './token';
 
 export class Evaluater extends Visitor {
 
-    stack = [];
-
     scope: Map<string, any>[] = [];
 
     constructor(public program: Program) {
