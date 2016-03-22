@@ -2,6 +2,7 @@ import { TokenKind, SourceLocation, Token } from './token';
 
 const NULL = '\0';
 const IDENTIFIER_REGEXP = /^[a-z0-9_$]+$/i;
+const WHITE_SPACE_REGEXP = /^\s+$/;
 
 export class Lexer {
     protected col = 0;
@@ -235,20 +236,24 @@ export class Lexer {
             }
 
             if (source[current] === '\r' && source[current + 1] === '\n') {
-                current += 2;
+                current++;
+
                 row++;
                 col = 1;
+
+                continue;
             }
 
             if (source[current] === '\n') {
-                current++;
                 row++;
                 col = 1;
+
+                continue;
             }
 
             c = source[current];
 
-            if (!skipSpace || c !== ' ') {
+            if (!skipSpace || !WHITE_SPACE_REGEXP.test(c)) {
                 break;
             }
         }

@@ -24,36 +24,6 @@ export class Checker extends Visitor {
     }
 }
 
-export class FunctionDuplicateDefineChecker extends Checker {
-    functions: string[] = [];
-
-    visitFunctionDeclarationExpression(functionDeclarationExpression: FunctionDeclarationExpression) {
-        let name = functionDeclarationExpression.name;
-
-        if (this.functions.indexOf(name) === -1) {
-            this.functions.push(name);
-        } else {
-            throw new Error(`Function ${name} is already defined.`);
-        }
-    }
-}
-
-export class FunctionCallChecker extends Checker {
-    functions = new Set();
-
-    visitFunctionDeclarationExpression(functionDeclarationExpression: FunctionDeclarationExpression) {
-        this.functions.add(functionDeclarationExpression.name);
-    }
-
-    visitFunctionCallExpression(functionCallExpression: FunctionCallExpression) {
-        let name = functionCallExpression.name;
-
-        if (!this.functions.has(name)) {
-            throw new Error(`Function ${name} is not yet defined.`);
-        }
-    }
-}
-
 export class OperationArityChecker extends Checker {
     visitOperationExpression(operationExpression: OperationExpression) {
         let type = operationExpression.type;

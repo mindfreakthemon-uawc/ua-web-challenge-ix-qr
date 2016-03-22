@@ -3,9 +3,7 @@ import { Component } from 'angular2/core';
 import { Lexer } from '../../translator/lexer';
 import { Parser } from '../../translator/parser';
 import {
-    FunctionDuplicateDefineChecker,
-    OperationArityChecker,
-    FunctionCallChecker
+    OperationArityChecker
 } from '../../translator/checker';
 import { Evaluater } from '../../translator/evaluater';
 
@@ -23,18 +21,21 @@ export class App {
 
     checks() {
         return [
-            FunctionDuplicateDefineChecker,
-            OperationArityChecker,
-            FunctionCallChecker
+            OperationArityChecker
         ];
     }
 
     transform() {
+        this.stack = '';
+        this.result = '';
+
         let lexer = new Lexer(this.source);
         let tokens = lexer.tokenize();
         let parser = new Parser(tokens);
         let program;
         let evaluater;
+
+        console.log(tokens.map(token => token.toKind()));
 
         try {
             program = parser.parse();

@@ -74,7 +74,7 @@ export class Parser {
     }
 
     protected parseExpression(): Expression {
-        let { token, kind, position } = this.wrap();
+        let { kind } = this.wrap();
 
         if (kind === TokenKind.LF_PARENTHESES) {
             this.consumeToken();
@@ -130,6 +130,13 @@ export class Parser {
 
                     break;
 
+                case TokenKind.BOOLEAN_LITERAL:
+                case TokenKind.STRING_LITERAL:
+                case TokenKind.NUMBER_LITERAL:
+                    expression = this.parseAnyLiteral();
+
+                    break;
+                
                 default:
                     this.errorExpectedTokenKinds(TokenKind.IF, TokenKind.SET, TokenKind.DEFINE, TokenKind.IDENTIFIER);
             }
@@ -146,22 +153,34 @@ export class Parser {
         } else {
             switch (kind) {
                 case TokenKind.BOOLEAN_LITERAL:
-                    this.consumeToken();
-
-                    return new BooleanLiteralValue(token.booleanData, position);
                 case TokenKind.STRING_LITERAL:
-                    this.consumeToken();
-
-                    return new StringLiteralValue(token.stringData, position);
                 case TokenKind.NUMBER_LITERAL:
-                    this.consumeToken();
-
-                    return new NumberLiteralValue(token.numberData, position);
+                    return this.parseAnyLiteral();
             }
-
         }
 
         this.errorExpectedTokenKinds(TokenKind.BOOLEAN_LITERAL, TokenKind.NUMBER_LITERAL, TokenKind.STRING_LITERAL, TokenKind.LF_PARENTHESES, TokenKind.IDENTIFIER);
+    }
+
+    protected parseAnyLiteral(): Expression  {
+        let { token, position, kind } = this.wrap();
+
+        switch (kind) {
+            case TokenKind.BOOLEAN_LITERAL:
+                this.consumeToken();
+
+                return new BooleanLiteralValue(token.booleanData, position);
+            case TokenKind.STRING_LITERAL:
+                this.consumeToken();
+
+                return new StringLiteralValue(token.stringData, position);
+            case TokenKind.NUMBER_LITERAL:
+                this.consumeToken();
+
+                return new NumberLiteralValue(token.numberData, position);
+        }
+
+        this.errorExpectedTokenKinds(TokenKind.BOOLEAN_LITERAL, TokenKind.NUMBER_LITERAL, TokenKind.STRING_LITERAL);
     }
 
     protected parseOperationExpression() {
