@@ -1,10 +1,357 @@
+
 .container
 	.row
-		.col-md-4
-			textarea('[(ngModel)]'='source').form-control
+		form.form-horizontal
+			.form-group
+				label.control-label.col-md-2 Source code
+				.col-md-10
+					textarea('[(ngModel)]'='source').form-control
+			button.btn.btn-block.btn-primary('(click)'='transform($event)') Execute
 
-			button.btn.btn-primary('(click)'='transform($event)') Execute
-		.col-md-4
-			textarea('[(ngModel)]'='stack').form-control
-		.col-md-4
-			textarea('[(ngModel)]'='result').form-control
+			.results('*ngIf'='resultAvailable')
+				div('*ngIf'='error')
+					.alert.alert-danger {{error}}
+
+				h4 Execution time: {{time}}ms
+
+				h4 Result:
+				p.well {{result}}
+
+				h4 Debug:
+				details
+					summary Tokens
+					.well.tokens
+						span('*ngFor'='#token of tokens') {{token}}
+				details
+					summary Stack
+					p.well {{stack}}
+	.row
+		.alert.alert-warning.
+			Note! Last expression in the list will become a return result.
+
+		h4 Runtime library
+		table.table
+			thead
+				tr.first-child
+					th(align='left') Function
+					th(align='left')
+						| Description
+			tbody
+				tr.even-child
+					td(align='left') (log a b ...)
+					td(align='left')
+						| Logs arguments into console
+				tr.odd-child
+					td(align='left') (print a b ...)
+					td(align='left')
+						| Logs arguments into console
+				tr.even-child
+					td(align='left') E
+					td(align='left')
+						| Returns Euler's number (approx. 2.718)
+				tr.odd-child
+					td(align='left') LN2
+					td(align='left')
+						| Returns the natural logarithm of 2 (approx. 0.693)
+				tr.even-child
+					td(align='left') LN10
+					td(align='left')
+						| Returns the natural logarithm of 10 (approx. 2.302)
+				tr.odd-child
+					td(align='left') LOG2E
+					td(align='left')
+						| Returns the base-2 logarithm of E (approx. 1.442)
+				tr.even-child
+					td(align='left') LOG10E
+					td(align='left')
+						| Returns the base-10 logarithm of E (approx. 0.434)
+				tr.odd-child
+					td(align='left') PI
+					td(align='left')
+						| Returns PI (approx. 3.14)
+				tr.even-child
+					td(align='left') SQRT1_2
+					td(align='left')
+						| Returns the square root of 1/2 (approx. 0.707)
+				tr.odd-child
+					td(align='left') SQRT2
+					td(align='left')
+						| Returns the square root of 2 (approx. 1.414)
+				tr.even-child
+					td(align='left') (abs x)
+					td(align='left')
+						| Returns the absolute value of a number.
+				tr.odd-child
+					td(align='left') (acos x)
+					td(align='left')
+						| Returns the arccosine of a number.
+				tr.even-child
+					td(align='left') (acosh x)
+					td(align='left')
+						| Returns the hyperbolic arccosine of a number.
+				tr.odd-child
+					td(align='left') (asin x)
+					td(align='left')
+						| Returns the arcsine of a number.
+				tr.even-child
+					td(align='left') (asinh x)
+					td(align='left')
+						| Returns the hyperbolic arcsine of a number.
+				tr.odd-child
+					td(align='left') (atan x)
+					td(align='left')
+						| Returns the arctangent of a number.
+				tr.even-child
+					td(align='left') (atanh x)
+					td(align='left')
+						| Returns the hyperbolic arctangent of a number.
+				tr.odd-child
+					td(align='left') (atan2 y, x)
+					td(align='left')
+						| Returns the arctangent of the quotient of its arguments.
+				tr.even-child
+					td(align='left') (cbrt x)
+					td(align='left')
+						| Returns the cube root of a number.
+				tr.odd-child
+					td(align='left') (ceil x)
+					td(align='left')
+						| Returns the smallest integer greater than or equal to a number.
+				tr.even-child
+					td(align='left') (clz32 x)
+					td(align='left')
+						| Returns the number of leading zeroes of a 32-bit integer.
+				tr.odd-child
+					td(align='left') (cos x)
+					td(align='left')
+						| Returns the cosine of a number.
+				tr.even-child
+					td(align='left') (cosh x)
+					td(align='left')
+						| Returns the hyperbolic cosine of a number.
+				tr.odd-child
+					td(align='left') (exp x)
+					td(align='left')
+						| Returns Ex, where x is the argument, and E is Euler's constant (2.718…), the base of the natural logarithm.
+				tr.even-child
+					td(align='left') (expm1 x)
+					td(align='left')
+						| Returns subtracting 1 from exp(x).
+				tr.odd-child
+					td(align='left') (floor x)
+					td(align='left')
+						| Returns the largest integer less than or equal to a number.
+				tr.even-child
+					td(align='left') (fround x)
+					td(align='left')
+						| Returns the nearest single precision float representation of a number.
+				tr.odd-child
+					td(align='left') (hypot x y ...)
+					td(align='left')
+						| Returns the square root of the sum of squares of its arguments.
+				tr.even-child
+					td(align='left') (imul x, y)
+					td(align='left')
+						| Returns the result of a 32-bit integer multiplication.
+				tr.odd-child
+					td(align='left') (log x)
+					td(align='left')
+						| Returns the natural logarithm (loge, also ln) of a number.
+				tr.even-child
+					td(align='left') (log1p x)
+					td(align='left')
+						| Returns the natural logarithm of 1 + x (loge, also ln) of a number.
+				tr.odd-child
+					td(align='left') (log10 x)
+					td(align='left')
+						| Returns the base 10 logarithm of a number.
+				tr.even-child
+					td(align='left') (log2 x)
+					td(align='left')
+						| Returns the base 2 logarithm of a number.
+				tr.odd-child
+					td(align='left') (max x y ...)
+					td(align='left')
+						| Returns the largest of zero or more numbers.
+				tr.even-child
+					td(align='left') (min x y ...)
+					td(align='left')
+						| Returns the smallest of zero or more numbers.
+				tr.odd-child
+					td(align='left') (pow x, y)
+					td(align='left')
+						| Returns base to the exponent power, that is, baseexponent.
+				tr.even-child
+					td(align='left') (random )
+					td(align='left')
+						| Returns a pseudo-random number between 0 and 1.
+				tr.odd-child
+					td(align='left') (round x)
+					td(align='left')
+						| Returns the value of a number rounded to the nearest integer.
+				tr.even-child
+					td(align='left') (sign x)
+					td(align='left')
+						| Returns the sign of the x, indicating whether x is positive, negative or zero.
+				tr.odd-child
+					td(align='left') (sin x)
+					td(align='left')
+						| Returns the sine of a number.
+				tr.even-child
+					td(align='left') (sinh x)
+					td(align='left')
+						| Returns the hyperbolic sine of a number.
+				tr.odd-child
+					td(align='left') (sqrt x)
+					td(align='left')
+						| Returns the positive square root of a number.
+				tr.even-child
+					td(align='left') (tan x)
+					td(align='left')
+						| Returns the tangent of a number.
+				tr.odd-child
+					td(align='left') (tanh x)
+					td(align='left')
+						| Returns the hyperbolic tangent of a number.
+				tr.even-child
+					td(align='left') (trunc x)
+					td(align='left')
+						| Returns the integral part of the number x, removing any fractional digits
+		h4 Language constructs
+		table.table
+			thead
+				tr.first-child
+					th(align='left') Construct
+					th(align='left')
+						| Description
+			tbody
+				tr.even-child
+					td(align='left')
+						| (define (
+						em F
+						em a
+						em b
+						|  ...)
+						em expression
+						em expression
+						|  ...)
+					td(align='left')
+						| Creates a function with arguments
+						em a
+						| ,
+						em b
+						| , ..., assigns it to variable
+						em F
+						|  and returns it
+				tr.odd-child
+					td(align='left')
+						| (set
+						em x
+						em expression
+						| )
+					td(align='left')
+						| Sets variable
+						em x
+						|  to
+						em expression
+						|  result
+				tr.even-child
+					td(align='left')
+						| (if
+						em conditional_expression
+						em if_truthy
+						em if_falsy
+						| )
+					td(align='left')
+						| Executes
+						em conditional_expression
+						|  and if the result is truthy, execute and return
+						em if_truthy
+						| , otherwise -
+						em i f_falsy
+				tr.odd-child
+					td(align='left')
+						| (
+						em F
+						em a
+						em b
+						|  ...)
+					td(align='left')
+						| Call function in variable
+						em F
+						|  with arguments
+						em a
+						em b
+						|  ...
+				tr.even-child
+					td(align='left') (< arg1 arg2)
+					td(align='left')
+						| Performs < operation with arguments
+				tr.odd-child
+					td(align='left') (> arg1 arg2)
+					td(align='left')
+						| Performs > operation with arguments
+				tr.even-child
+					td(align='left') (<= arg1 arg2)
+					td(align='left')
+						| Performs <= operation with arguments
+				tr.odd-child
+					td(align='left') (>= arg1 arg2)
+					td(align='left')
+						| Performs >= operation with arguments
+				tr.even-child
+					td(align='left') (+ arg1 arg2 ...)
+					td(align='left')
+						| Performs + operation with arguments
+				tr.odd-child
+					td(align='left') (- arg1 arg2)
+					td(align='left')
+						| Performs - operation with arguments
+				tr.even-child
+					td(align='left') (* arg1 arg2 ...)
+					td(align='left')
+						| Performs * operation with arguments
+				tr.odd-child
+					td(align='left') (/ arg1 arg2)
+					td(align='left')
+						| Performs / operation with arguments
+				tr.even-child
+					td(align='left') (^ arg1 arg2)
+					td(align='left')
+						| Performs ^ operation with arguments
+				tr.odd-child
+					td(align='left') (= arg1 arg2)
+					td(align='left')
+						| Performs = operation with arguments
+				tr.even-child
+					td(align='left') (== arg1 arg2)
+					td(align='left')
+						| Performs == operation with arguments
+				tr.odd-child
+					td(align='left') (!= arg1 arg2)
+					td(align='left')
+						| Performs != operation with arguments
+				tr.even-child
+					td(align='left') (& arg1 arg2)
+					td(align='left')
+						| Performs & operation with arguments
+				tr.odd-child
+					td(align='left') (| arg1 arg2)
+					td(align='left')
+						| Performs | operation with arguments
+				tr.even-child
+					td(align='left') (&& arg1 arg2)
+					td(align='left')
+						| Performs && operation with arguments
+				tr.odd-child
+					td(align='left') (|| arg1 arg2)
+					td(align='left')
+						| Performs || operation with arguments
+				tr.even-child
+					td(align='left') (! arg1)
+					td(align='left')
+						| Performs ! operation with arguments
+				tr.odd-child
+					td(align='left') (~ arg1)
+					td(align='left')
+						| Performs ~ operation with arguments

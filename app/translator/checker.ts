@@ -71,5 +71,7 @@ export class OperationArityChecker extends Checker {
         if (operationExpression.args.length < arityMin || operationExpression.args.length > arityMax) {
             throw new Error(`Operation ${Token.operatorSourceString(type)} supports ${arityMin} min and ${arityMax} max args`);
         }
+
+        super.visitOperationExpression(operationExpression);
     }
 }

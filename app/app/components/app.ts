@@ -13,11 +13,16 @@ import { Evaluater } from '../../translator/evaluater';
     templateUrl: 'app/templates/app.jade'
 })
 export class App {
+
+    resultAvailable = false;
+
     source: string;
 
+    time: string;
     stack: string;
-    
+    error: string;
     result: string;
+    tokens: string[];
 
     checks() {
         return [
@@ -26,16 +31,28 @@ export class App {
     }
 
     transform() {
-        this.stack = '';
-        this.result = '';
+        this.resultAvailable = false;
 
-        let lexer = new Lexer(this.source);
+        this.stack = null;
+        this.result = null;
+        this.error = null;
+        this.tokens = null;
+
+        let source = this.source;
+
+        if (!source) {
+            return;
+        }
+
+        let time = this.now();
+
+        let lexer = new Lexer(source);
         let tokens = lexer.tokenize();
         let parser = new Parser(tokens);
         let program;
         let evaluater;
 
-        console.log(tokens.map(token => token.toKind()));
+        this.tokens = tokens.map(token => token.toKind());
 
         try {
             program = parser.parse();
@@ -51,9 +68,20 @@ export class App {
             
             this.result = evaluater.evaluate();
         } catch (e) {
-            this.stack = e.toString();
-            return;
+            this.error = e.toString();
         }
+
+        this.time = (this.now() - time).toFixed(2);
+
+        this.resultAvailable = true;
+    }
+
+    now(): number {
+        if (performance) {
+            return performance.now();
+        }
+
+        return Date.now();
     }
 }
 

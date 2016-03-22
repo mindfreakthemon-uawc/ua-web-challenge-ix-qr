@@ -22,7 +22,15 @@ export class Parser {
     }
 
     parse(): Program {
-        return new Program(this.parseExpressionList());
+        let expressions = this.parseExpressionList();
+
+        let { kind } = this.wrap();
+
+        if (kind !== TokenKind.LT) {
+            this.errorExpectedTokenKinds(TokenKind.LT);
+        }
+
+        return new Program(expressions);
     }
 
     protected errorExpectedTokenKinds(...tokenKinds: TokenKind[]) {

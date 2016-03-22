@@ -11,8 +11,10 @@
 	)
 )
 
-(fib 6) // 5
+(fib 6)
 ```
+
+Should return 5.
 
 ## EBNF
 
@@ -41,6 +43,7 @@
 | Function        | Description                                                                                                 |
 |:----------------|:------------------------------------------------------------------------------------------------------------|
 | (log a b ...)   | Logs arguments into console                                                                                 |
+| (print a b ...) | Logs arguments into console                                                                                 |
 | E               | Returns Euler's number (approx. 2.718)                                                                      |
 | LN2             | Returns the natural logarithm of 2 (approx. 0.693)                                                          |
 | LN10            | Returns the natural logarithm of 10 (approx. 2.302)                                                         |

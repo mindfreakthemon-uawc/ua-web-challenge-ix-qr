@@ -28,6 +28,7 @@ export class Evaluater extends Visitor {
         this.importToScope(globals, Math);
         
         globals.set('log', console.log.bind(console));
+        globals.set('print', console.log.bind(console));
     }
 
     evaluate() {

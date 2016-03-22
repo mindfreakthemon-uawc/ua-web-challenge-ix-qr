@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+<head>
+    <title>README</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h1><a href="#lisp-like-lang" name="lisp-like-lang">Lisp-like.lang</a></h1>
+    <h2><a href="#code-example" name="code-example">Code example</a></h2>
+<pre><code>(define (fib n)
+    (if (= n 1) 0
+        (if (= n 2) 1
+            (+ (fib (- n 1)) (fib (- n 2)) )
+        )
+    )
+)
+
+(fib 6)
+</code></pre>
+    <p>Should return 5.</p>
+    <h2><a href="#ebnf" name="ebnf">EBNF</a></h2>
+<pre><code>&lt;IDENTIFIER&gt; = /[a-z][a-z0-9_]*/i
+
+    &lt;TEXT&gt; = /[^&quot;]+/
+    &lt;NUMBER_LITERAL&gt; = &quot;0&quot; | /[1-9][0-9]+/ [ &quot;.&quot; /[0-9]*[1-9]/ ]
+    &lt;STRING_LITERAL&gt; = &#39;&quot;&#39; &lt;TEXT&gt; &#39;&quot;&#39;
+    &lt;BOOLEAN_LITERAL&gt; = &quot;true&quot; | &quot;false&quot;
+    &lt;ANY_LITERAL&gt; = &lt;NUMBER_LITERAL&gt; | &lt;STRING_LITERAL&gt; | &lt;BOOLEAN_LITERAL&gt; | &quot;(&quot; &lt;ANY_LITERAL&gt;
+    &quot;)&quot;
+
+    &lt;OPERATOR&gt; = &quot;&lt;&quot; | &quot;&gt;&quot; | &quot;&lt;=&quot; | &quot;&gt;=&quot; | &quot;+&quot; |
+    &quot;-&quot; | &quot;*&quot; | &quot;/&quot; | &quot;^&quot; | &quot;=&quot; | &quot;==&quot; | &quot;!=&quot; |
+    &quot;&amp;&quot; | &quot;|&quot; | &quot;&amp;&amp;&quot; | &quot;||&quot; | &quot;!&quot; | &quot;~&quot;
+
+    &lt;VAR_REFERENCE_EXPRESSION&gt; = &lt;IDENTIFIER&gt;
+    &lt;VAR_ASSIGNMENT_EXPRESSION_&gt; = &quot;(&quot; &quot;set&quot; &lt;IDENTIFIER&gt; &lt;EXPRESSION&gt; &quot;)&quot;
+    &lt;OPERATION_EXPRESSION&gt; = &quot;(&quot; &lt;OPERATOR&gt; { &lt;EXPRESSION&gt; } &quot;)&quot;
+    &lt;CONDITIONAL_EXPRESSION&gt; = &quot;(&quot; &quot;if&quot; &lt;EXPRESSION&gt; &lt;EXPRESSION&gt; [ &lt;EXPRESSION&gt;
+    ] &quot;)&quot;
+    &lt;FUNCTION_CALL_EXPRESSION&gt; = &quot;(&quot; &lt;VAR_REFERENCE_EXPRESSION&gt; { &lt;EXPRESSION&gt; } &quot;)&quot;
+    &lt;FUNCTION_DECLARATION_EXPRESSION&gt; &quot;(&quot; &quot;define&quot; &quot;(&quot; &lt;IDENTIFIER&gt; { &lt;VAR_REFERENCE_EXPRESSION&gt;
+    } &quot;)&quot; { &lt;EXPRESSION&gt; } &quot;)&quot;
+    &lt;EXPRESSION&gt; = &lt;ANY_LITERAL&gt; | &lt;CONDITIONAL_EXPRESSION&gt; | &lt;VAR_REFERENCE_EXPRESSION&gt; | &lt;FUNCTION_CALL_EXPRESSION&gt;
+    | &lt;OPERATION_EXPRESSION&gt; | &lt;FUNCTION_DECLARATION_EXPRESSION&gt;
+</code></pre>
+    <h2><a href="#runtime-library" name="runtime-library">Runtime library</a></h2>
+    <table>
+        <thead>
+        <tr>
+            <th align="left">Function</th>
+            <th align="left">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td align="left">(log a b ...)</td>
+            <td align="left">Logs arguments into console</td>
+        </tr>
+        <tr>
+            <td align="left">(print a b ...)</td>
+            <td align="left">Logs arguments into console</td>
+        </tr>
+        <tr>
+            <td align="left">E</td>
+            <td align="left">Returns Euler's number (approx. 2.718)</td>
+        </tr>
+        <tr>
+            <td align="left">LN2</td>
+            <td align="left">Returns the natural logarithm of 2 (approx. 0.693)</td>
+        </tr>
+        <tr>
+            <td align="left">LN10</td>
+            <td align="left">Returns the natural logarithm of 10 (approx. 2.302)</td>
+        </tr>
+        <tr>
+            <td align="left">LOG2E</td>
+            <td align="left">Returns the base-2 logarithm of E (approx. 1.442)</td>
+        </tr>
+        <tr>
+            <td align="left">LOG10E</td>
+            <td align="left">Returns the base-10 logarithm of E (approx. 0.434)</td>
+        </tr>
+        <tr>
+            <td align="left">PI</td>
+            <td align="left">Returns PI (approx. 3.14)</td>
+        </tr>
+        <tr>
+            <td align="left">SQRT1_2</td>
+            <td align="left">Returns the square root of 1/2 (approx. 0.707)</td>
+        </tr>
+        <tr>
+            <td align="left">SQRT2</td>
+            <td align="left">Returns the square root of 2 (approx. 1.414)</td>
+        </tr>
+        <tr>
+            <td align="left">(abs x)</td>
+            <td align="left">Returns the absolute value of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(acos x)</td>
+            <td align="left">Returns the arccosine of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(acosh x)</td>
+            <td align="left">Returns the hyperbolic arccosine of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(asin x)</td>
+            <td align="left">Returns the arcsine of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(asinh x)</td>
+            <td align="left">Returns the hyperbolic arcsine of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(atan x)</td>
+            <td align="left">Returns the arctangent of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(atanh x)</td>
+            <td align="left">Returns the hyperbolic arctangent of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(atan2 y, x)</td>
+            <td align="left">Returns the arctangent of the quotient of its arguments.</td>
+        </tr>
+        <tr>
+            <td align="left">(cbrt x)</td>
+            <td align="left">Returns the cube root of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(ceil x)</td>
+            <td align="left">Returns the smallest integer greater than or equal to a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(clz32 x)</td>
+            <td align="left">Returns the number of leading zeroes of a 32-bit integer.</td>
+        </tr>
+        <tr>
+            <td align="left">(cos x)</td>
+            <td align="left">Returns the cosine of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(cosh x)</td>
+            <td align="left">Returns the hyperbolic cosine of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(exp x)</td>
+            <td align="left">Returns Ex, where x is the argument, and E is Euler's constant (2.718…), the base of the
+                natural logarithm.
+            </td>
+        </tr>
+        <tr>
+            <td align="left">(expm1 x)</td>
+            <td align="left">Returns subtracting 1 from exp(x).</td>
+        </tr>
+        <tr>
+            <td align="left">(floor x)</td>
+            <td align="left">Returns the largest integer less than or equal to a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(fround x)</td>
+            <td align="left">Returns the nearest single precision float representation of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(hypot x y ...)</td>
+            <td align="left">Returns the square root of the sum of squares of its arguments.</td>
+        </tr>
+        <tr>
+            <td align="left">(imul x, y)</td>
+            <td align="left">Returns the result of a 32-bit integer multiplication.</td>
+        </tr>
+        <tr>
+            <td align="left">(log x)</td>
+            <td align="left">Returns the natural logarithm (loge, also ln) of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(log1p x)</td>
+            <td align="left">Returns the natural logarithm of 1 + x (loge, also ln) of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(log10 x)</td>
+            <td align="left">Returns the base 10 logarithm of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(log2 x)</td>
+            <td align="left">Returns the base 2 logarithm of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(max x y ...)</td>
+            <td align="left">Returns the largest of zero or more numbers.</td>
+        </tr>
+        <tr>
+            <td align="left">(min x y ...)</td>
+            <td align="left">Returns the smallest of zero or more numbers.</td>
+        </tr>
+        <tr>
+            <td align="left">(pow x, y)</td>
+            <td align="left">Returns base to the exponent power, that is, baseexponent.</td>
+        </tr>
+        <tr>
+            <td align="left">(random )</td>
+            <td align="left">Returns a pseudo-random number between 0 and 1.</td>
+        </tr>
+        <tr>
+            <td align="left">(round x)</td>
+            <td align="left">Returns the value of a number rounded to the nearest integer.</td>
+        </tr>
+        <tr>
+            <td align="left">(sign x)</td>
+            <td align="left">Returns the sign of the x, indicating whether x is positive, negative or zero.</td>
+        </tr>
+        <tr>
+            <td align="left">(sin x)</td>
+            <td align="left">Returns the sine of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(sinh x)</td>
+            <td align="left">Returns the hyperbolic sine of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(sqrt x)</td>
+            <td align="left">Returns the positive square root of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(tan x)</td>
+            <td align="left">Returns the tangent of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(tanh x)</td>
+            <td align="left">Returns the hyperbolic tangent of a number.</td>
+        </tr>
+        <tr>
+            <td align="left">(trunc x)</td>
+            <td align="left">Returns the integral part of the number x, removing any fractional digits</td>
+        </tr>
+        </tbody>
+    </table>
+    <h2><a href="#language-constructs" name="language-constructs">Language constructs</a></h2>
+    <table>
+        <thead>
+        <tr>
+            <th align="left">Construct</th>
+            <th align="left">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td align="left">(define (<em>F</em> <em>a</em> <em>b</em> ...) <em>expression</em> <em>expression</em> ...)
+            </td>
+            <td align="left">Creates a function with arguments <em>a</em>, <em>b</em>, ..., assigns it to variable
+                <em>F</em> and returns it
+            </td>
+        </tr>
+        <tr>
+            <td align="left">(set <em>x</em> <em>expression</em>)</td>
+            <td align="left">Sets variable <em>x</em> to <em>expression</em> result</td>
+        </tr>
+        <tr>
+            <td align="left">(if <em>conditional_expression</em> <em>if_truthy</em> <em>if_falsy</em>)</td>
+            <td align="left">Executes <em>conditional_expression</em> and if the result is truthy, execute and return
+                <em>if_truthy</em>,
+                otherwise - <em>i f_falsy</em></td>
+        </tr>
+        <tr>
+            <td align="left">(<em>F</em> <em>a</em> <em>b</em> ...)</td>
+            <td align="left">Call function in variable <em>F</em> with arguments <em>a</em> <em>b</em> ...</td>
+        </tr>
+        <tr>
+            <td align="left">(&lt; arg1 arg2)</td>
+            <td align="left">Performs &lt; operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(&gt; arg1 arg2)</td>
+            <td align="left">Performs &gt; operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(&lt;= arg1 arg2)</td>
+            <td align="left">Performs &lt;= operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(&gt;= arg1 arg2)</td>
+            <td align="left">Performs &gt;= operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(+ arg1 arg2 ...)</td>
+            <td align="left">Performs + operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(- arg1 arg2)</td>
+            <td align="left">Performs - operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(* arg1 arg2 ...)</td>
+            <td align="left">Performs * operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(/ arg1 arg2)</td>
+            <td align="left">Performs / operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(^ arg1 arg2)</td>
+            <td align="left">Performs ^ operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(= arg1 arg2)</td>
+            <td align="left">Performs = operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(== arg1 arg2)</td>
+            <td align="left">Performs == operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(!= arg1 arg2)</td>
+            <td align="left">Performs != operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(&amp; arg1 arg2)</td>
+            <td align="left">Performs &amp; operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(&#124; arg1 arg2)</td>
+            <td align="left">Performs &#124; operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(&amp;&amp; arg1 arg2)</td>
+            <td align="left">Performs &amp;&amp; operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(&#124;&#124; arg1 arg2)</td>
+            <td align="left">Performs &#124;&#124; operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(! arg1)</td>
+            <td align="left">Performs ! operation with arguments</td>
+        </tr>
+        <tr>
+            <td align="left">(~ arg1)</td>
+            <td align="left">Performs ~ operation with arguments</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -98,6 +98,11 @@ export class Token {
             case TokenKind.RETURN:
                 return 'return';
 
+            case TokenKind.LF_PARENTHESES:
+                return '(';
+            case TokenKind.RT_PARENTHESES:
+                return ')';
+
             case TokenKind.AMBIGUOUS_NUMBER_LITERAL:
             case TokenKind.UNTERMINATED_STRING_LITERAL:
             case TokenKind.UNKNOWN_TOKEN:
@@ -113,7 +118,7 @@ export class Token {
     }
 
     toString() {
-        return `${this.toKind()}#{${this.toSource()}}@{${this.sourceLocation}}`;
+        return `${this.toKind()} {${this.toSource()}} @ {${this.sourceLocation}}`;
     }
 
     static operatorSourceString(tokenKind: TokenKind) {
@@ -157,6 +162,8 @@ export class Token {
                 return '!';
             case TokenKind.TILDE:
                 return '~';
+            case TokenKind.LT:
+                return 'EOF';
         }
 
         return '?';
